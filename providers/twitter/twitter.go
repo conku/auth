@@ -8,12 +8,12 @@ import (
 	"net/http"
 	"reflect"
 
+	"github.com/conku/auth"
+	"github.com/conku/auth/auth_identity"
+	"github.com/conku/auth/claims"
+	"github.com/conku/qor/utils"
+	"github.com/conku/session"
 	"github.com/mrjones/oauth"
-	"github.com/qor/auth"
-	"github.com/qor/auth/auth_identity"
-	"github.com/qor/auth/claims"
-	"github.com/qor/qor/utils"
-	"github.com/qor/session"
 )
 
 var UserInfoURL = "https://api.twitter.com/1.1/account/verify_credentials.json?include_email=true"
@@ -135,7 +135,7 @@ func (Provider) GetName() string {
 // ConfigAuth config auth
 func (provider *Provider) ConfigAuth(auth *auth.Auth) {
 	provider.Auth = auth
-	provider.Auth.Render.RegisterViewPath("github.com/qor/auth/providers/twitter/views")
+	provider.Auth.Render.RegisterViewPath("github.com/conku/auth/providers/twitter/views")
 }
 
 // NewConsumer new twitter consumer

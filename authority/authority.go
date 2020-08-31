@@ -4,10 +4,10 @@ import (
 	"html/template"
 	"net/http"
 
-	"github.com/qor/auth"
-	"github.com/qor/middlewares"
-	"github.com/qor/roles"
-	"github.com/qor/session"
+	"github.com/conku/auth"
+	"github.com/conku/middlewares"
+	"github.com/conku/roles"
+	"github.com/conku/session"
 )
 
 var (

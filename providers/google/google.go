@@ -9,10 +9,10 @@ import (
 	"reflect"
 	"strings"
 
-	"github.com/qor/auth"
-	"github.com/qor/auth/auth_identity"
-	"github.com/qor/auth/claims"
-	"github.com/qor/qor/utils"
+	"github.com/conku/auth"
+	"github.com/conku/auth/auth_identity"
+	"github.com/conku/auth/claims"
+	"github.com/conku/qor/utils"
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/google"
 )

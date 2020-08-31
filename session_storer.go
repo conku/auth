@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/conku/auth/claims"
+	"github.com/conku/session"
 	jwt "github.com/dgrijalva/jwt-go"
-	"github.com/qor/auth/claims"
-	"github.com/qor/session"
 )
 
 // SessionStorerInterface session storer interface for Auth

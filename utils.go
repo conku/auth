@@ -4,9 +4,9 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/conku/auth/claims"
+	"github.com/conku/qor/utils"
 	"github.com/jinzhu/gorm"
-	"github.com/qor/auth/claims"
-	"github.com/qor/qor/utils"
 )
 
 // CurrentUser context key to get current user from Request
