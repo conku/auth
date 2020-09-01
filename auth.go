@@ -9,7 +9,7 @@ import (
 	"github.com/conku/mailer"
 	"github.com/conku/mailer/logger"
 	"github.com/conku/redirect_back"
-	render "github.com/conku/render2"
+	render "github.com/conku/render"
 	"github.com/conku/session/manager"
 	jwt "github.com/dgrijalva/jwt-go"
 	"github.com/jinzhu/gorm"
