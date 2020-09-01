@@ -9,7 +9,7 @@ import (
 	"github.com/conku/mailer"
 	"github.com/conku/mailer/logger"
 	"github.com/conku/redirect_back"
-	"github.com/conku/render"
+	render "github.com/conku/render2"
 	"github.com/conku/session/manager"
 	jwt "github.com/dgrijalva/jwt-go"
 	"github.com/jinzhu/gorm"
@@ -36,7 +36,7 @@ type Config struct {
 	// ViewPaths prepend views paths for auth
 	ViewPaths []string
 
-	// Auth is using [Render](https://github.com/conku/render) to render pages, you could configure it with your project's Render if you have advanced usage like [BindataFS](https://github.com/conku/bindatafs)
+	// Auth is using [Render](https://github.com/conku/render2) to render pages, you could configure it with your project's Render if you have advanced usage like [BindataFS](https://github.com/conku/bindatafs)
 	Render *render.Render
 	// Auth is using [Mailer](https://github.com/conku/mailer) to send email, by default, it will print email into console, you need to configure it to send real one
 	Mailer *mailer.Mailer
