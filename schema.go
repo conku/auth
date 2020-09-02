@@ -7,11 +7,14 @@ type Schema struct {
 
 	Name      string
 	Email     string
+	Moblie    string
+	Password  string
 	FirstName string
 	LastName  string
 	Location  string
 	Image     string
 	Phone     string
+	Role      string
 	URL       string
 
 	RawInfo interface{}

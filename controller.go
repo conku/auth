@@ -36,7 +36,6 @@ func (serveMux *serveMux) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 		// eg: /phone/login
 		if provider := serveMux.Auth.GetProvider(paths[0]); provider != nil {
 			context.Provider = provider
-
 			// serve mux
 			switch paths[1] {
 			case "login":

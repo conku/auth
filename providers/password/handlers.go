@@ -1,6 +1,7 @@
 package password
 
 import (
+	"fmt"
 	"net/http"
 	"reflect"
 	"strings"
@@ -16,6 +17,7 @@ import (
 // DefaultAuthorizeHandler default authorize handler
 var DefaultAuthorizeHandler = func(context *auth.Context) (*claims.Claims, error) {
 	var (
+		//authInfo auth_identity.Basic
 		authInfo    auth_identity.AuthIdentity
 		req         = context.Request
 		w           = context.Writer
@@ -31,6 +33,8 @@ var DefaultAuthorizeHandler = func(context *auth.Context) (*claims.Claims, error
 	locale := strings.TrimSpace(req.Form.Get("locale"))
 	utils.SetCookie(http.Cookie{Name: "locale", Value: locale}, &qor.Context{Request: req, Writer: w})
 
+	fmt.Println("locale:", locale)
+
 	if tx.Model(context.Auth.AuthIdentityModel).Where(authInfo).Scan(&authInfo).RecordNotFound() {
 		return nil, auth.ErrInvalidAccount
 	}
@@ -41,6 +45,12 @@ var DefaultAuthorizeHandler = func(context *auth.Context) (*claims.Claims, error
 
 		return nil, ErrUnconfirmed
 	}
+
+	// hashedPassword, _ := provider.Encryptor.Digest(req.Form.Get("password"))
+	// fmt.Println(hashedPassword)
+
+	// fmt.Println(authInfo.EncryptedPassword)
+	// fmt.Println(strings.TrimSpace(req.Form.Get("password")))
 
 	if err := provider.Encryptor.Compare(authInfo.EncryptedPassword, strings.TrimSpace(req.Form.Get("password"))); err == nil {
 		return authInfo.ToClaims(), err
@@ -55,6 +65,7 @@ var DefaultRegisterHandler = func(context *auth.Context) (*claims.Claims, error)
 		err         error
 		currentUser interface{}
 		schema      auth.Schema
+		//authInfo    auth_identity.Basic
 		authInfo    auth_identity.AuthIdentity
 		req         = context.Request
 		tx          = context.Auth.GetDB(req)
@@ -77,18 +88,29 @@ var DefaultRegisterHandler = func(context *auth.Context) (*claims.Claims, error)
 	authInfo.Provider = provider.GetName()
 	authInfo.UID = strings.TrimSpace(req.Form.Get("moblie"))
 
-	if !tx.Model(context.Auth.AuthIdentityModel).Where(authInfo).Scan(&authInfo).RecordNotFound() {
-		return nil, auth.ErrInvalidAccount
+	// if !tx.Model(context.Auth.AuthIdentityModel).Where(authInfo).Scan(&authInfo).RecordNotFound() {
+	// 	return nil, auth.ErrInvalidAccount
+	// }
+
+	users := make(map[string]interface{})
+	users["moblie"] = strings.TrimSpace(req.Form.Get("moblie"))
+
+	if !tx.Model(context.Auth.UserModel).Where(users).Scan(&authInfo).RecordNotFound() {
+		return nil, auth.ErrExistAccount
 	}
 
-	// if req.Form.Get("confirm_password") != req.Form.Get("password") {
-	// 	return nil, auth.ErrConfirmPassword
-	// }
+	if req.Form.Get("confirm_password") != req.Form.Get("password") {
+		return nil, auth.ErrConfirmPassword
+	}
 
 	if authInfo.EncryptedPassword, err = provider.Encryptor.Digest(strings.TrimSpace(req.Form.Get("password"))); err == nil {
 		schema.Provider = authInfo.Provider
 		schema.UID = authInfo.UID
-		schema.Email = authInfo.UID
+		schema.Email = strings.TrimSpace(req.Form.Get("login"))
+		schema.Name = authInfo.UID
+		schema.Moblie = authInfo.UID
+		schema.Password = authInfo.EncryptedPassword
+		schema.Role = "Member"
 		schema.RawInfo = req
 
 		currentUser, authInfo.UserID, err = context.Auth.UserStorer.Save(&schema, context)
@@ -103,7 +125,6 @@ var DefaultRegisterHandler = func(context *auth.Context) (*claims.Claims, error)
 				context.SessionStorer.Flash(context.Writer, req, session.Message{Message: ConfirmFlashMessage, Type: "success"})
 				err = provider.Config.ConfirmMailer(schema.Email, context, authInfo.ToClaims(), currentUser)
 			}
-
 			return authInfo.ToClaims(), err
 		}
 	}
