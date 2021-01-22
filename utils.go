@@ -5,8 +5,8 @@ import (
 	"time"
 
 	"github.com/conku/auth/claims"
+	"github.com/conku/gorm"
 	"github.com/conku/qor/utils"
-	"github.com/jinzhu/gorm"
 )
 
 // CurrentUser context key to get current user from Request

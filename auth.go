@@ -6,13 +6,13 @@ import (
 
 	"github.com/conku/auth/auth_identity"
 	"github.com/conku/auth/claims"
+	"github.com/conku/gorm"
 	"github.com/conku/mailer"
 	"github.com/conku/mailer/logger"
 	"github.com/conku/redirect_back"
 	"github.com/conku/render"
 	"github.com/conku/session/manager"
 	jwt "github.com/dgrijalva/jwt-go"
-	"github.com/jinzhu/gorm"
 )
 
 // Auth auth struct
