@@ -6,8 +6,8 @@ import (
 
 	"github.com/conku/auth/auth_identity"
 	"github.com/conku/auth/claims"
+	"github.com/conku/copier"
 	"github.com/conku/qor/utils"
-	"github.com/jinzhu/copier"
 )
 
 // UserStorerInterface user storer interface
